@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -11,11 +11,10 @@ import styled from 'styled-components';
 import Tabbar from './components/Tabbar'
 
 function App() {
-  console.log(React.version);
-
+  const [tabShow, setTabShow] = useState(true);
   return (
     <Router>
-      <Tabbar links={['/yellow', '/red', '/green']} />
+      <Tabbar setTabShow={setTabShow} tabShow={tabShow} links={['/yellow', '/red', '/green']} />
       <div>
         <Switch>
           <Route path="/red">
@@ -28,10 +27,10 @@ function App() {
             <Green />
           </Route>
           <Route path="/cherry">
-            <Cherry />
+            <Cherry setTabShow={setTabShow} />
           </Route>
           <Route path="/">
-            <Home />
+            <Home setTabShow={setTabShow} />
           </Route>
         </Switch>
       </div>
@@ -84,15 +83,19 @@ const Button = styled.button`
     `
 
 
-const Home = () => {
+const Home = withRouter((props) => {
+  props.setTabShow(false)
+
   return (
     <div>
       <Button><Link to="/yellow">Enter</Link></Button>
     </div>
   );
-}
+})
 
 const Cherry = withRouter((props) => {
+
+  props.setTabShow(false)
 
   return (
     <div>

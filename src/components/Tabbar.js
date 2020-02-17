@@ -7,6 +7,9 @@ import {
 
 const Tabbar = withRouter((props) => {
 
+
+    props.setTabShow(true)
+
     //Styling Wrapper (Bar)
     const Wrapper = styled.div`
         font-size: 1.5em;
@@ -23,8 +26,8 @@ const Tabbar = withRouter((props) => {
         `;
 
     //Styling each buttons
-    const Button = styled.button`
-        background: ${props => props.color};    
+    const Button = styled.button` && {
+        background: #dedede;
         text-align: center;
         font-size: 1em;
         padding: 0.25em 1em;
@@ -33,6 +36,7 @@ const Tabbar = withRouter((props) => {
         flex: 1 1 0px;
         width: 0;
         text-decoration: none;
+    }
     `
 
     //Capitalize function in order to define the Button Label
@@ -41,11 +45,10 @@ const Tabbar = withRouter((props) => {
         return (s.charAt(0).toUpperCase() + s.slice(1))
     }
     //Logic to hide the bar on /cherry & homepage
-    const hiddenOnRoutes = ['/cherry','/']
-    return (hiddenOnRoutes.indexOf(props.location.pathname) === -1 ? (
+    return (!!props.tabShow ? (
         <Wrapper>
             {props.links.map((value, index) => {
-                return <Button key={index} color={value.replace(/\//g, '')}><Link to={value}>{capitalize(value.replace(/\//g, ''))}</Link></Button>
+                return <Button key={index} className={(props.location.pathname === value ? 'active' : '')} color={value.replace(/\//g, '')}><Link to={value}>{capitalize(value.replace(/\//g, ''))}</Link></Button>
             })}
         </Wrapper>
     ) : '');
